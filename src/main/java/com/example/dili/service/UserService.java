@@ -43,4 +43,13 @@ public class UserService {
             return new ResponseStatus(false, "Account do not exist");
         }
     }
+
+    public ResponseStatus removeUser(int id){
+        if(userRepository.existsById(id)){
+            userRepository.deleteById(id);
+            return new ResponseStatus(true, "Succeed.");
+        }else {
+            return new ResponseStatus(false, "Item does not exist.");
+        }
+    }
 }

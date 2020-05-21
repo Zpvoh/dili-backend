@@ -1,10 +1,11 @@
 create database if not exists dili
 
-create table if not exists Store
+create table Store
 (
   ID         int auto_increment,
   store_name tinytext not null,
   password   tinytext not null,
+  store_addr longtext null,
   constraint Store_ID_uindex
   unique (ID)
 );
@@ -12,7 +13,7 @@ create table if not exists Store
 alter table Store
   add primary key (ID);
 
-create table if not exists Item
+create table Item
 (
   ID          int auto_increment,
   store_id    int      not null,
@@ -29,7 +30,7 @@ create table if not exists Item
 alter table Item
   add primary key (ID);
 
-create table if not exists User
+create table User
 (
   ID       int auto_increment,
   email    tinytext not null,

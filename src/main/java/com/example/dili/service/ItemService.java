@@ -44,7 +44,11 @@ public class ItemService {
     }
 
     public ResponseStatus removeItem(Item item){
-        itemRepository.deleteById(item.getID());
-        return new ResponseStatus(true, "Succeed.");
+        if(itemRepository.existsById(item.getID())) {
+            itemRepository.deleteById(item.getID());
+            return new ResponseStatus(true, "Succeed.");
+        }else {
+            return new ResponseStatus(false, "Item does not exist.");
+        }
     }
 }

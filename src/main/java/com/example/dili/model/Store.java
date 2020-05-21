@@ -11,6 +11,8 @@ public class Store {
     @Column(name = "store_name")
     private String storeName;
     private String password;
+    @Column(name = "store_addr")
+    private String storeAddr;
 
     public int getID() {
         return ID;
@@ -34,5 +36,13 @@ public class Store {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getStoreAddr() {
+        return storeAddr;
+    }
+
+    public void setStoreAddr(String storeAddr) {
+        this.storeAddr = storeAddr;
     }
 }

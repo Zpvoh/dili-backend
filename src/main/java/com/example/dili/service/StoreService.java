@@ -18,7 +18,7 @@ public class StoreService {
     private StoreRepository storeRepository;
 
     public StoreRegisterResponse registerStore(Store storeInfo){
-        if (storeRepository.existsById(storeInfo.getID())) {
+        if (storeRepository.existsById(storeInfo.getID()) || storeRepository.findStoreByStoreName(storeInfo.getStoreName()).isPresent()) {
             return new StoreRegisterResponse(-1, new ResponseStatus(false, "Same ID has existed."));
         } else {
             Store store = storeRepository.save(storeInfo);
@@ -31,7 +31,12 @@ public class StoreService {
     }
 
     public Object loginStore(Store storeInfo) {
-        Optional<Store> realStoreInfo = storeRepository.findById(storeInfo.getID());
+        Optional<Store> realStoreInfo;
+        if(storeInfo.getStoreName()!=null){
+            realStoreInfo = storeRepository.findStoreByStoreName(storeInfo.getStoreName());
+        }else {
+            realStoreInfo = storeRepository.findById(storeInfo.getID());
+        }
 
         if (realStoreInfo.isPresent()) {
             if(realStoreInfo.get().getPassword().equals(storeInfo.getPassword())) {
@@ -41,6 +46,15 @@ public class StoreService {
             }
         } else {
             return new ResponseStatus(false, "Account do not exist");
+        }
+    }
+
+    public ResponseStatus removeStore(int id){
+        if(storeRepository.existsById(id)){
+            storeRepository.deleteById(id);
+            return new ResponseStatus(true, "Succeed.");
+        }else {
+            return new ResponseStatus(false, "Item does not exist.");
         }
     }
 }
